@@ -210,32 +210,41 @@ export default function Events({
 }
 
 export async function getStaticProps() {
-  const { data: meetups, error } = await supabase
-    .from('meetups')
-    .select('id, city, country, link, start_at, timezone, launch_week')
-    .eq('is_published', true)
+  let meetupEvents: BlogPost[] = []
 
-  if (error) console.log('meetups error: ', error)
+  // In demo/preview builds we may not have Supabase env configured.
+  // If the client is disabled, skip dynamic meetup fetching and fall back to static events.
+  if (supabase) {
+    const { data: meetups, error } = await supabase
+      .from('meetups')
+      .select('id, city, country, link, start_at, timezone, launch_week')
+      .eq('is_published', true)
 
-  const meetupEvents: BlogPost[] =
-    meetups?.map((meetup: any) => ({
-      slug: '',
-      type: 'event',
-      title: `Launch Week ${meetup.launch_week.slice(2)} Meetup: ${meetup.city}, ${meetup.country}`,
-      date: meetup.start_at,
-      description: '',
-      thumb: '',
-      path: '',
-      url: meetup.link ?? '',
-      tags: ['meetup', 'launch-week'],
-      categories: ['meetup'],
-      timezone: meetup.timezone ?? 'America/Los_Angeles',
-      disable_page_build: true,
-      link: {
-        href: meetup.link ?? '#',
-        target: '_blank',
-      },
-    })) ?? []
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.log('meetups error: ', error)
+    }
+
+    meetupEvents =
+      meetups?.map((meetup: any) => ({
+        slug: '',
+        type: 'event',
+        title: `Launch Week ${meetup.launch_week.slice(2)} Meetup: ${meetup.city}, ${meetup.country}`,
+        date: meetup.start_at,
+        description: '',
+        thumb: '',
+        path: '',
+        url: meetup.link ?? '',
+        tags: ['meetup', 'launch-week'],
+        categories: ['meetup'],
+        timezone: meetup.timezone ?? 'America/Los_Angeles',
+        disable_page_build: true,
+        link: {
+          href: meetup.link ?? '#',
+          target: '_blank',
+        },
+      })) ?? []
+  }
 
   const staticEvents = getSortedPosts({
     directory: '_events',
