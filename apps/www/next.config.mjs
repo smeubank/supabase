@@ -85,7 +85,7 @@ const nextConfig = {
         headers: [
           {
             key: 'X-Robots-Tag',
-            value: 'all',
+            value: 'noindex, nofollow',
           },
           // No X-Frame-Options header to allow iframe embedding
         ],
@@ -106,7 +106,7 @@ const nextConfig = {
         headers: [
           {
             key: 'X-Robots-Tag',
-            value: 'all',
+            value: 'noindex, nofollow',
           },
           {
             key: 'X-Frame-Options',

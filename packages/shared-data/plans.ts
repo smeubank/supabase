@@ -37,7 +37,12 @@ export const plans: PricingInformation[] = [
       ['5 GB egress'],
       ['5 GB cached egress'],
       '1 GB file storage',
-      ['Observability baseline', 'Logs, traces & metrics retained for 1 hour'],
+      [
+        'Observability baseline',
+        '1-hour retention for logs, traces & metrics',
+        'Reports across API Gateway, query performance, Data API, Auth, Database, Edge Functions, Realtime, and Storage',
+        'Manual log & trace search plus optional extensions like index advisors, metrics scrubbing, and performance & security advisors',
+      ],
       'Community support',
     ],
     footer: 'Free projects are paused after 1 week of inactivity. Limit of 2 active projects.',
